@@ -5,8 +5,13 @@ import java.util.List;
 
 public class Queen extends Piece {
 
+<<<<<<< HEAD
     public Queen(int color, Square initSq, String img) {
         super(color, initSq, img);
+=======
+    public Queen(int color, Square initSq, String img_file) {
+        super(color, initSq, img_file);
+>>>>>>> java
     }
 
     @Override

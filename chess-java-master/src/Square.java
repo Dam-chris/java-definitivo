@@ -1,5 +1,6 @@
 
 
+<<<<<<< HEAD
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -14,6 +15,16 @@ public class Square extends JComponent {
 	private static final long serialVersionUID = 1L;
 
 	private Board board;
+=======
+import java.awt.Color;
+import java.awt.Graphics;
+
+import javax.swing.*;
+
+@SuppressWarnings("serial")
+public class Square extends JComponent {
+    private Board b;
+>>>>>>> java
     
     private final int color;
     private Piece occupyingPiece;
@@ -22,10 +33,17 @@ public class Square extends JComponent {
     private int xNum;
     private int yNum;
     
+<<<<<<< HEAD
     public Square(Board board, int color, int xNum, int yNum) {
         
         this.board = board;
         this.color = color;
+=======
+    public Square(Board b, int c, int xNum, int yNum) {
+        
+        this.b = b;
+        this.color = c;
+>>>>>>> java
         this.dispPiece = true;
         this.xNum = xNum;
         this.yNum = yNum;
@@ -71,20 +89,31 @@ public class Square extends JComponent {
     
     public void capture(Piece p) {
         Piece k = getOccupyingPiece();
+<<<<<<< HEAD
         if (k.getColor() == 0) board.Bpieces.remove(k);
         if (k.getColor() == 1) board.Wpieces.remove(k);
+=======
+        if (k.getColor() == 0) b.Bpieces.remove(k);
+        if (k.getColor() == 1) b.Wpieces.remove(k);
+>>>>>>> java
         this.occupyingPiece = p;
     }
     
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         
+<<<<<<< HEAD
         if (this.color == 1) 
         {
         	g.setColor(Color.decode("#edeed1"));
         }
         else 
         {
+=======
+        if (this.color == 1) {
+        	g.setColor(Color.decode("#edeed1"));
+        } else {
+>>>>>>> java
         	g.setColor(Color.decode("#779952"));
         }
         
@@ -94,6 +123,7 @@ public class Square extends JComponent {
             occupyingPiece.draw(g);
         }
     }
+<<<<<<< HEAD
     public void drawshapes(Graphics2D g, int x, int y, int width, int height) {
     	g.setColor(Color.YELLOW);
     	double thickness = 5;
@@ -103,6 +133,9 @@ public class Square extends JComponent {
     	g.setStroke(oldStroke);
     	
     }
+=======
+    
+>>>>>>> java
     @Override
     public int hashCode() {
         int prime = 31;

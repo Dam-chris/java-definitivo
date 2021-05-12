@@ -5,8 +5,13 @@ import java.util.List;
 
 public class Rook extends Piece {
 
+<<<<<<< HEAD
     public Rook(int color, Square initSq, String img) {
         super(color, initSq, img);
+=======
+    public Rook(int color, Square initSq, String img_file) {
+        super(color, initSq, img_file);
+>>>>>>> java
     }
 
     @Override

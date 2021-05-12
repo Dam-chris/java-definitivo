@@ -19,9 +19,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.border.LineBorder;
 import java.awt.Font;
+<<<<<<< HEAD
 import java.awt.Rectangle;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+=======
+>>>>>>> java
 
 public class StartMenu implements Runnable {
     /**
@@ -34,20 +37,31 @@ public class StartMenu implements Runnable {
         // Set window properties
         startWindow.setLocation(300,100);
         startWindow.setResizable(false);
+<<<<<<< HEAD
         startWindow.setSize(320, 450);
         startWindow.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
+=======
+        startWindow.setSize(320, 400);
+>>>>>>> java
         
         Box components = Box.createVerticalBox();
         components.setBackground(Color.DARK_GRAY);
         startWindow.getContentPane().add(components);
         
+<<<<<<< HEAD
         // RunChess title
+=======
+        // Game title
+>>>>>>> java
         final JPanel titlePanel = new JPanel();
         titlePanel.setBackground(Color.DARK_GRAY);
         components.add(titlePanel);
         final JLabel titleLabel = new JLabel("Chess");
+<<<<<<< HEAD
         titleLabel.setForeground(Color.LIGHT_GRAY);
         titleLabel.setFont(new Font("Dialog", Font.BOLD, 20));
+=======
+>>>>>>> java
         titlePanel.add(titleLabel);
         
         // Black player selections
@@ -55,23 +69,34 @@ public class StartMenu implements Runnable {
         blackPanel.setBackground(Color.DARK_GRAY);
         components.add(blackPanel, BorderLayout.EAST);
         final JLabel blackPiece = new JLabel();
+<<<<<<< HEAD
         blackPiece.setBounds(new Rectangle(0, 0, 40, 40));
         blackPiece.setMaximumSize(new Dimension(40, 40));
         blackPiece.setMinimumSize(new Dimension(40, 40));
         blackPiece.setSize(new Dimension(40, 40));
+=======
+>>>>>>> java
         try {
             Image blackImg = ImageIO.read(getClass().getResource("bp.png"));
             blackPiece.setIcon(new ImageIcon(blackImg));
             blackPanel.add(blackPiece);
         } catch (Exception e) {
+<<<<<<< HEAD
             System.out.println(e);
+=======
+            System.out.println("Required game file bp.png missing");
+>>>>>>> java
         }
         
         
         
         final JTextField blackInput = new JTextField("Black", 10);
+<<<<<<< HEAD
         blackInput.setFont(new Font("Dialog", Font.PLAIN, 15));
         blackInput.setPreferredSize(new Dimension(200, 40));
+=======
+        blackInput.setPreferredSize(new Dimension(180, 30));
+>>>>>>> java
         blackInput.setMinimumSize(new Dimension(20, 21));
         blackPanel.add(blackInput);
         
@@ -83,34 +108,52 @@ public class StartMenu implements Runnable {
         
         try {
             Image whiteImg = ImageIO.read(getClass().getResource("wp.png"));
+<<<<<<< HEAD
             whitePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+=======
+>>>>>>> java
             whitePiece.setIcon(new ImageIcon(whiteImg));
             whitePanel.add(whitePiece);
             startWindow.setIconImage(whiteImg);
         }  catch (Exception e) {
+<<<<<<< HEAD
             System.out.println(e);
+=======
+            System.out.println("Required game file wp.png missing");
+>>>>>>> java
         }
         
         
         final JTextField whiteInput = new JTextField("White", 10);
+<<<<<<< HEAD
         whiteInput.setFont(new Font("Dialog", Font.PLAIN, 15));
         whiteInput.setMaximumSize(new Dimension(180, 50));       
         whiteInput.setMinimumSize(new Dimension(80, 40));
         whiteInput.setPreferredSize(new Dimension(200, 40));
+=======
+        whiteInput.setPreferredSize(new Dimension(180, 30));
+>>>>>>> java
         whitePanel.add(whiteInput);
         
         // Timer settings
         final String[] minSecInts = new String[60];
         for (int i = 0; i < 60; i++) {
+<<<<<<< HEAD
             if (i < 10) 
             {
                 minSecInts[i] = "0" + Integer.toString(i);
             } else 
             {
+=======
+            if (i < 10) {
+                minSecInts[i] = "0" + Integer.toString(i);
+            } else {
+>>>>>>> java
                 minSecInts[i] = Integer.toString(i);
             }
         }
         
+<<<<<<< HEAD
         JComboBox<String> hours = new JComboBox<String>(new String[] {"0","1","2"});
       	JComboBox<String> minutes = new JComboBox<String>(minSecInts);
       	JComboBox<String> seconds = new JComboBox<String>(minSecInts);
@@ -131,6 +174,18 @@ public class StartMenu implements Runnable {
         seconds.setForeground(Color.LIGHT_GRAY);
         seconds.setBackground(Color.GRAY);
         seconds.setBorder(new LineBorder(Color.WHITE));
+=======
+       final JComboBox<String> seconds = new JComboBox<String>(minSecInts);
+        final JComboBox<String> minutes = new JComboBox<String>(minSecInts);
+        final JComboBox<String> hours = 
+                new JComboBox<String>(new String[] {"0","1","2","3"});
+        
+        Box timerSettings = Box.createHorizontalBox();
+        
+        hours.setMaximumSize(hours.getPreferredSize());
+        minutes.setMaximumSize(minutes.getPreferredSize());
+        seconds.setMaximumSize(minutes.getPreferredSize());
+>>>>>>> java
         
         timerSettings.add(hours);
         timerSettings.add(Box.createHorizontalStrut(10));
@@ -145,8 +200,11 @@ public class StartMenu implements Runnable {
         // Buttons
         Box buttons = Box.createHorizontalBox();
         final JButton quit = new JButton("Quit");
+<<<<<<< HEAD
         quit.setMaximumSize(new Dimension(70, 30));
         quit.setForeground(Color.LIGHT_GRAY);
+=======
+>>>>>>> java
         quit.setFont(new Font("Dialog", Font.BOLD, 15));
         quit.setBorder(new LineBorder(Color.WHITE));
         quit.setBackground(Color.GRAY);
@@ -157,17 +215,39 @@ public class StartMenu implements Runnable {
             }
           });
         
+<<<<<<< HEAD
        final JButton start = new JButton("Start");
        start.setMaximumSize(new Dimension(70, 30));
        start.setBorder(new LineBorder(Color.WHITE));
        start.setFont(new Font("Dialog", Font.BOLD, 15));
        start.setForeground(Color.LIGHT_GRAY);
        start.setBackground(Color.GRAY);
+=======
+        final JButton instr = new JButton("Instructions");
+        instr.setFont(new Font("Dialog", Font.BOLD, 15));
+        instr.setBorder(new LineBorder(Color.WHITE));
+        instr.setBackground(Color.GRAY);
+        
+        instr.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(startWindow,
+                        "To begin a new game, input player names\n" +
+                        "next to the pieces. Set the clocks and\n" +
+                        "click \"Start\". Setting the timer to all\n" +
+                        "zeroes begins a new untimed game.",
+                        "How to play",
+                        JOptionPane.PLAIN_MESSAGE);
+            }
+          });
+        
+       final JButton start = new JButton("Start");
+>>>>>>> java
         
         start.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String bn = blackInput.getText();
                 String wn = whiteInput.getText();
+<<<<<<< HEAD
             
                 int hh = Integer.parseInt((String) hours.getSelectedItem());
                 int mm = Integer.parseInt((String) minutes.getSelectedItem());
@@ -189,6 +269,20 @@ public class StartMenu implements Runnable {
         
         buttons.add(start);
         buttons.add(Box.createHorizontalStrut(10));
+=======
+                int hh = Integer.parseInt((String) hours.getSelectedItem());
+                int mm = Integer.parseInt((String) minutes.getSelectedItem());
+                int ss = Integer.parseInt((String) seconds.getSelectedItem());
+                
+                new GameWindow(bn, wn, hh, mm, ss);
+                startWindow.dispose();
+            }
+          });
+        
+        /*buttons.add(start);*/
+        buttons.add(Box.createHorizontalStrut(10));
+        buttons.add(instr);
+>>>>>>> java
         buttons.add(Box.createHorizontalStrut(10));
         buttons.add(quit);
         components.add(buttons);
