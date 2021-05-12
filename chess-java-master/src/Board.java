@@ -15,10 +15,11 @@ import java.util.List;
 
 import javax.swing.*;
 
-@SuppressWarnings("serial")
+
 public class Board extends JPanel implements MouseListener, MouseMotionListener {
-	// Resource location constants for piece images
-    private static final String RESOURCES_WBISHOP_PNG = "wb.png";
+	
+	private static final long serialVersionUID = 1L;
+	private static final String RESOURCES_WBISHOP_PNG = "wb.png";
 	private static final String RESOURCES_BBISHOP_PNG = "bb.png";
 	private static final String RESOURCES_WKNIGHT_PNG = "wn.png";
 	private static final String RESOURCES_BKNIGHT_PNG = "bn.png";
@@ -31,11 +32,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	private static final String RESOURCES_WPAWN_PNG = "wp.png";
 	private static final String RESOURCES_BPAWN_PNG = "bp.png";
 	
-	// Logical and graphical representations of board
+	//board
 	private final Square[][] board;
-    private final GameWindow g;
+    private final ChessGame chess;
     
-    // List of pieces and whether they are movable
+    // List of pieces 
     public final LinkedList<Piece> Bpieces;
     public final LinkedList<Piece> Wpieces;
     public List<Square> movable;
@@ -46,10 +47,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     private int currX;
     private int currY;
     private Graphics2D g2D;
-    private CheckmateDetector cmd;
+    private CheckmateDetector checkMate;
+    private int startX, startY, endX, endY;
     
-    public Board(GameWindow g) {
-        this.g = g;
+    public Board(ChessGame chess) {
+        this.chess = chess;
         board = new Square[8][8];
         Bpieces = new LinkedList<Piece>();
         Wpieces = new LinkedList<Piece>();
@@ -58,15 +60,20 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
 
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
+        for (int x = 0; x < 8; x++) 
+        {
+            for (int y = 0; y < 8; y++) 
+            {
                 int xMod = x % 2;
                 int yMod = y % 2;
 
-                if ((xMod == 0 && yMod == 0) || (xMod == 1 && yMod == 1)) {
+                if ((xMod == 0 && yMod == 0) || (xMod == 1 && yMod == 1)) 
+                {
                     board[x][y] = new Square(this, 1, y, x);
                     this.add(board[x][y]);
-                } else {
+                } 
+                else 
+                {
                     board[x][y] = new Square(this, 0, y, x);
                     this.add(board[x][y]);
                 }
@@ -115,14 +122,16 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         board[7][5].put(new Bishop(1, board[7][5], RESOURCES_WBISHOP_PNG));
         
         
-        for(int y = 0; y < 2; y++) {
-            for (int x = 0; x < 8; x++) {
+        for(int y = 0; y < 2; y++) 
+        {
+            for (int x = 0; x < 8; x++) 
+            {
                 Bpieces.add(board[y][x].getOccupyingPiece());
                 Wpieces.add(board[7-y][x].getOccupyingPiece());
             }
         }
         
-        cmd = new CheckmateDetector(this, Wpieces, Bpieces, wk, bk);
+        checkMate = new CheckmateDetector(this, Wpieces, Bpieces, wk, bk);
     }
 
     public Square[][] getSquareArray() {
@@ -133,8 +142,8 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         return whiteTurn;
     }
 
-    public void setCurrPiece(Piece p) {
-        this.currPiece = p;
+    public void setCurrPiece(Piece piece) {
+        this.currPiece = piece;
     }
 
     public Piece getCurrPiece() {
@@ -143,7 +152,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 
     @Override
     public void paintComponent(Graphics g) {
-        // super.paintComponent(g);
+    	Square square;
     	g2D = (Graphics2D) g;
 		
 		g2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -151,18 +160,26 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 		g2D.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
 		g2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-                Square sq = board[y][x];
-                sq.paintComponent(g2D);
+        for (int x = 0; x < 8; x++) 
+        {
+            for (int y = 0; y < 8; y++) 
+            {
+                 square = board[y][x];
+                 square.drawshapes(g2D, startX, startY, 100, 100);
+                 square.drawshapes(g2D, endX, endY, 100, 100);
+                 square.paintComponent(g2D);
             }
         }
 
-        if (currPiece != null) {
+        if (currPiece != null) 
+        {
             if ((currPiece.getColor() == 1 && whiteTurn)
-                    || (currPiece.getColor() == 0 && !whiteTurn)) {
-                final Image i = currPiece.getImage();
-                g2D.drawImage(i, currX, currY,125,125, null);
+                    || (currPiece.getColor() == 0 && !whiteTurn)) 
+            {
+                Image img = currPiece.getImage();
+                
+                g2D.drawImage(img, currX, currY, 125, 125, null);
+               
             }
         }
     }
@@ -170,62 +187,78 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     @Override
     public void mousePressed(MouseEvent e) {
         currX = e.getX() - 65;
-        currY = e.getY() - 60;
+        currY = e.getY() - 85;
+        
+        Square square = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
 
-        Square sq = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
-
-        if (sq.isOccupied()) {
-            currPiece = sq.getOccupyingPiece();
+        if (square.isOccupied()) 
+        {
+            currPiece = square.getOccupyingPiece();
             if (currPiece.getColor() == 0 && whiteTurn)
                 return;
             if (currPiece.getColor() == 1 && !whiteTurn)
                 return;
-            sq.setDisplay(false);
+            square.setDisplay(false);
+            startX = currPiece.getPosition().getX();
+            startY = currPiece.getPosition().getY();
         }
         repaint();
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        Square sq = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
+        Square square = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
 
         if (currPiece != null) {
             if (currPiece.getColor() == 0 && whiteTurn)
+            {
                 return;
+            }
             if (currPiece.getColor() == 1 && !whiteTurn)
+            {
                 return;
-
+            }
             List<Square> legalMoves = currPiece.getLegalMoves(this);
-            movable = cmd.getAllowableSquares(whiteTurn);
+            movable = checkMate.getAllowableSquares(whiteTurn);
 
-            if (legalMoves.contains(sq) && movable.contains(sq)
-                    && cmd.testMove(currPiece, sq)) {
-                sq.setDisplay(true);
-                currPiece.move(sq);
-                cmd.update();
+            if (legalMoves.contains(square) && movable.contains(square)
+                    && checkMate.testMove(currPiece, square)) 
+            {
+            	 
+                square.setDisplay(true);
+                currPiece.move(square);
+                endX = currPiece.getPosition().getX();
+                endY = currPiece.getPosition().getY();
+                checkMate.update();
 
-                if (cmd.blackCheckMated()) {
+                if (checkMate.blackCheckMated()) {
+                	System.out.println("check mate a las negras");
                     currPiece = null;
                     repaint();
                     this.removeMouseListener(this);
                     this.removeMouseMotionListener(this);
-                    g.checkmateOccurred(0);
-                } else if (cmd.whiteCheckMated()) {
+                    chess.checkmateOccurred(0);
+                } else if (checkMate.whiteCheckMated()) {
+                	System.out.println("check mate a las blancas");
                     currPiece = null;
                     repaint();
                     this.removeMouseListener(this);
                     this.removeMouseMotionListener(this);
-                    g.checkmateOccurred(1);
+                    chess.checkmateOccurred(1);
                 } else {
                     currPiece = null;
                     whiteTurn = !whiteTurn;
-                    movable = cmd.getAllowableSquares(whiteTurn);
+                    movable = checkMate.getAllowableSquares(whiteTurn);
                 }
-
-            } else {
+               
+                
+            } 
+            else 
+            {
                 currPiece.getPosition().setDisplay(true);
                 currPiece = null;
             }
+           
         }
 
         repaint();
@@ -234,12 +267,11 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     @Override
     public void mouseDragged(MouseEvent e) {
         currX = e.getX() - 65;
-        currY = e.getY() - 65;
-
+        currY = e.getY() - 85;
+        
         repaint();
     }
-
-    // Irrelevant methods, do nothing for these mouse behaviors
+    //mouse listener
     @Override
     public void mouseMoved(MouseEvent e) {
     }

@@ -1,13 +1,19 @@
 
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 
 import javax.swing.*;
 
-@SuppressWarnings("serial")
+
 public class Square extends JComponent {
-    private Board b;
+   
+	private static final long serialVersionUID = 1L;
+
+	private Board board;
     
     private final int color;
     private Piece occupyingPiece;
@@ -16,10 +22,10 @@ public class Square extends JComponent {
     private int xNum;
     private int yNum;
     
-    public Square(Board b, int c, int xNum, int yNum) {
+    public Square(Board board, int color, int xNum, int yNum) {
         
-        this.b = b;
-        this.color = c;
+        this.board = board;
+        this.color = color;
         this.dispPiece = true;
         this.xNum = xNum;
         this.yNum = yNum;
@@ -65,17 +71,20 @@ public class Square extends JComponent {
     
     public void capture(Piece p) {
         Piece k = getOccupyingPiece();
-        if (k.getColor() == 0) b.Bpieces.remove(k);
-        if (k.getColor() == 1) b.Wpieces.remove(k);
+        if (k.getColor() == 0) board.Bpieces.remove(k);
+        if (k.getColor() == 1) board.Wpieces.remove(k);
         this.occupyingPiece = p;
     }
     
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        if (this.color == 1) {
+        if (this.color == 1) 
+        {
         	g.setColor(Color.decode("#edeed1"));
-        } else {
+        }
+        else 
+        {
         	g.setColor(Color.decode("#779952"));
         }
         
@@ -85,7 +94,15 @@ public class Square extends JComponent {
             occupyingPiece.draw(g);
         }
     }
-    
+    public void drawshapes(Graphics2D g, int x, int y, int width, int height) {
+    	g.setColor(Color.YELLOW);
+    	double thickness = 5;
+    	Stroke oldStroke = g.getStroke();
+    	g.setStroke(new BasicStroke((float) thickness));
+    	g.drawRect(x, y, width, height);
+    	g.setStroke(oldStroke);
+    	
+    }
     @Override
     public int hashCode() {
         int prime = 31;

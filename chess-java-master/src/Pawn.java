@@ -6,8 +6,8 @@ import java.util.LinkedList;
 public class Pawn extends Piece {
     private boolean wasMoved;
     
-    public Pawn(int color, Square initSq, String img_file) {
-        super(color, initSq, img_file);
+    public Pawn(int color, Square initSq, String img) {
+        super(color, initSq, img);
     }
     
     @Override
@@ -25,9 +25,9 @@ public class Pawn extends Piece {
         
         int x = this.getPosition().getXNum();
         int y = this.getPosition().getYNum();
-        int c = this.getColor();
+        int color = this.getColor();
         
-        if (c == 0) {
+        if (color == 0) {
             if (!wasMoved) {
                 if (!board[y+2][x].isOccupied()) {
                     legalMoves.add(board[y+2][x]);
@@ -53,7 +53,7 @@ public class Pawn extends Piece {
             }
         }
         
-        if (c == 1) {
+        if (color == 1) {
             if (!wasMoved) {
                 if (!board[y-2][x].isOccupied()) {
                     legalMoves.add(board[y-2][x]);

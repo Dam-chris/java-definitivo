@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Queen extends Piece {
 
-    public Queen(int color, Square initSq, String img_file) {
-        super(color, initSq, img_file);
+    public Queen(int color, Square initSq, String img) {
+        super(color, initSq, img);
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.awt.Font;
 import javax.swing.border.LineBorder;
 
 
-public class GameWindow {
+public class ChessGame {
     private JFrame gameWindow;
     
     public Clock blackClock;
@@ -21,12 +21,12 @@ public class GameWindow {
     private Board board;
     private JLabel wTime;
     private JLabel bTime;
-    private JLabel w;
-    private JLabel b;
+    private JLabel white;
+    private JLabel black;
     
     
     
-    public GameWindow(String blackName, String whiteName, int hh, 
+    public ChessGame(String blackName, String whiteName, int hh, 
             int mm, int ss) {
         
         blackClock = new Clock(hh, ss, mm);
@@ -42,13 +42,13 @@ public class GameWindow {
             Image whiteImg = ImageIO.read(getClass().getResource("wp.png"));
             gameWindow.setIconImage(whiteImg);
         } catch (Exception e) {
-            System.out.println("Game file wp.png not found");
+            System.out.println(e);
         }
 
         gameWindow.setLocation(100, 100);
         gameWindow.getContentPane().setLayout(null);
        
-        // Game Data window
+        // RunChess Data window
         JPanel gameData = gameDataPanel(blackName, whiteName, hh, mm, ss);
         gameData.setSize(new Dimension(432, 111));
         gameWindow.getContentPane().add(gameData);
@@ -74,7 +74,7 @@ public class GameWindow {
         nGame.setBounds(967, 386, 207, 52);
         gameWindow.getContentPane().add(nGame);
         
-        final JButton instr = new JButton("How to play");
+       final JButton instr = new JButton("How to play");
         instr.setBorder(new LineBorder(Color.WHITE));
         instr.setForeground(Color.LIGHT_GRAY);
         instr.setFont(new Font("Dialog", Font.BOLD, 20));
@@ -85,24 +85,21 @@ public class GameWindow {
         instr.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(gameWindow,
-                        "Move the chess pieces on the board by clicking\n"
-                        + "and dragging. The game will watch out for illegal\n"
-                        + "moves. You can win either by your opponent running\n"
-                        + "out of time or by checkmating your opponent.\n"
-                        + "\nGood luck, hope you enjoy the game!",
-                        "How to play",
+                        "Jon es un Tterrorista",
+                        "How to play // como jugar",
                         JOptionPane.PLAIN_MESSAGE);
             }
           });
         
         nGame.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int n = JOptionPane.showConfirmDialog(
+                int option = JOptionPane.showConfirmDialog(
                         gameWindow,
-                        "Are you sure you want to begin a new game?",
-                        "Confirm new game", JOptionPane.YES_NO_OPTION);
+                        "Are you sure you want to begin a new game? \n"
+                        + "// estas seguro de que quieres empezar un nuevo juego",
+                        "Confirm // Confima ", JOptionPane.YES_NO_OPTION);
                 
-                if (n == JOptionPane.YES_OPTION) {
+                if (option == JOptionPane.YES_OPTION) {
                     SwingUtilities.invokeLater(new StartMenu());
                     gameWindow.dispose();
                 }
@@ -111,12 +108,13 @@ public class GameWindow {
         
         quit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                int n = JOptionPane.showConfirmDialog(
+                int option = JOptionPane.showConfirmDialog(
                         gameWindow,
-                        "Are you sure you want to quit?",
-                        "Confirm quit", JOptionPane.YES_NO_OPTION);
+                        "Are you sure you want to quit? \n"
+                        + "estas seguro de que quieres salir?",
+                        "Confirm // Confirma", JOptionPane.YES_NO_OPTION);
                 
-                if (n == JOptionPane.YES_OPTION) {
+                if (option == JOptionPane.YES_OPTION) {
                     if (timer != null) timer.stop();
                     gameWindow.dispose();
                 }
@@ -144,17 +142,17 @@ public class GameWindow {
         
         // PLAYER NAMES
         
-        w = new JLabel(wn);
-        w.setForeground(Color.LIGHT_GRAY);
-        w.setLocation(0, 0);
-        w.setFont(new Font("Dialog", Font.BOLD, 30));
+        white = new JLabel(wn);
+        white.setForeground(Color.LIGHT_GRAY);
+        white.setLocation(0, 0);
+        white.setFont(new Font("Dialog", Font.BOLD, 30));
         
-        w.setHorizontalAlignment(JLabel.CENTER);
-        w.setVerticalAlignment(JLabel.CENTER);
+        white.setHorizontalAlignment(JLabel.CENTER);
+        white.setVerticalAlignment(JLabel.CENTER);
         
-        w.setSize(new Dimension(216, 37));
+        white.setSize(new Dimension(216, 37));
         
-        gameData.add(w);
+        gameData.add(white);
         
         // CLOCKS
         
@@ -178,15 +176,15 @@ public class GameWindow {
                         
                         if (whiteClock.outOfTime()) {
                             timer.stop();
-                            int n = JOptionPane.showConfirmDialog(
+                            int option = JOptionPane.showConfirmDialog(
                                     gameWindow,
-                                    bn + " wins by time! Play a new game? \n" +
-                                    "Choosing \"No\" quits the game.",
-                                    bn + " wins!",
+                                    bn + " wins by time! Play a new game? \n "
+                                    		+ "// "+bn+" gana por timepo, quieres juegar de nuevo?",
+                                    bn + " wins! // "+bn+" gana!",
                                     JOptionPane.YES_NO_OPTION);
                             
-                            if (n == JOptionPane.YES_OPTION) {
-                                new GameWindow(bn, wn, hh, mm, ss);
+                            if (option == JOptionPane.YES_OPTION) {
+                                new ChessGame(bn, wn, hh, mm, ss);
                                 gameWindow.dispose();
                             } else gameWindow.dispose();
                         }
@@ -196,15 +194,15 @@ public class GameWindow {
                         
                         if (blackClock.outOfTime()) {
                             timer.stop();
-                            int n = JOptionPane.showConfirmDialog(
+                            int option = JOptionPane.showConfirmDialog(
                                     gameWindow,
-                                    wn + " wins by time! Play a new game? \n" +
-                                    "Choosing \"No\" quits the game.",
-                                    wn + " wins!",
+                                    wn + " wins by time! Play a new game? \n"
+                                    		+ "// "+wn+" gana por timepo, quieres juegar de nuevo?",
+                                    wn + " wins! // "+wn+" gana!",
                                     JOptionPane.YES_NO_OPTION);
                             
-                            if (n == JOptionPane.YES_OPTION) {
-                                new GameWindow(bn, wn, hh, mm, ss);
+                            if (option == JOptionPane.YES_OPTION) {
+                                new ChessGame(bn, wn, hh, mm, ss);
                                 gameWindow.dispose();
                             } else gameWindow.dispose();
                         }
@@ -212,18 +210,15 @@ public class GameWindow {
                 }
             });
             timer.start();
-        } else {
-            wTime.setText("Untimed game");
-            bTime.setText("Untimed game");
-        }
-        b = new JLabel(bn);
-        b.setForeground(Color.LIGHT_GRAY);
-        b.setLocation(216, 0);
-        b.setFont(new Font("Dialog", Font.BOLD, 30));
-        b.setHorizontalAlignment(JLabel.CENTER);
-        b.setVerticalAlignment(JLabel.CENTER);
-        b.setSize(new Dimension(216, 37));
-        gameData.add(b);
+        } 
+        black = new JLabel(bn);
+        black.setForeground(Color.LIGHT_GRAY);
+        black.setLocation(216, 0);
+        black.setFont(new Font("Dialog", Font.BOLD, 30));
+        black.setHorizontalAlignment(JLabel.CENTER);
+        black.setVerticalAlignment(JLabel.CENTER);
+        black.setSize(new Dimension(216, 37));
+        gameData.add(black);
         wTime = new JLabel(whiteClock.getTime());
         wTime.setForeground(Color.LIGHT_GRAY);
         wTime.setBounds(0, 62, 216, 37);
@@ -241,30 +236,30 @@ public class GameWindow {
     
     
     
-    public void checkmateOccurred (int c) {
-        if (c == 0) {
+    public void checkmateOccurred (int check) {
+        if (check == 0) {
             if (timer != null) timer.stop();
-            int n = JOptionPane.showConfirmDialog(
+            int option = JOptionPane.showConfirmDialog(
                     gameWindow,
                     "White wins by checkmate! Set up a new game? \n" +
-                    "Choosing \"No\" lets you look at the final situation.",
-                    "White wins!",
+                    "Blancas gana por jaque mate, quieres empezar un nuevo juego?",
+                    "White wins! // Blancas ganan!!",
                     JOptionPane.YES_NO_OPTION);
             
-            if (n == JOptionPane.YES_OPTION) {
+            if (option == JOptionPane.YES_OPTION) {
                 SwingUtilities.invokeLater(new StartMenu());
                 gameWindow.dispose();
             }
         } else {
             if (timer != null) timer.stop();
-            int n = JOptionPane.showConfirmDialog(
+            int option = JOptionPane.showConfirmDialog(
                     gameWindow,
                     "Black wins by checkmate! Set up a new game? \n" +
-                    "Choosing \"No\" lets you look at the final situation.",
-                    "Black wins!",
+                            "Negras gana por jaque mate, quieres empezar un nuevo juego?",
+                            "Black wins! // Negras ganan!!",
                     JOptionPane.YES_NO_OPTION);
             
-            if (n == JOptionPane.YES_OPTION) {
+            if (option == JOptionPane.YES_OPTION) {
                 SwingUtilities.invokeLater(new StartMenu());
                 gameWindow.dispose();
             }

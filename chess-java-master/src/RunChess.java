@@ -1,12 +1,12 @@
 
 import javax.swing.*;
 
-public class Game implements Runnable {
+public class RunChess implements Runnable {
     public void run() {
         SwingUtilities.invokeLater(new StartMenu());
     }
     
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Game());
+        SwingUtilities.invokeLater(new RunChess());
     }
 }
